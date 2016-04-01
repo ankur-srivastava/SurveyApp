@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_margin="15dp"
-        android:text="New Survey"
-        android:textSize="25dp"
+        android:layout_marginTop="60dp"
+        android:text="Ready for a new Survey"
+        android:textSize="20dp"
         />
 
     <EditText
