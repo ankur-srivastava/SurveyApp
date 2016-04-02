@@ -14,9 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="100dp"
         android:text="Ready for a new Survey"
         android:textSize="20dp"
+        android:textColor="@android:color/holo_blue_dark"
         />
 
     <EditText
@@ -55,6 +56,8 @@
         android:gravity="center"
         android:layout_margin="15dp"
         android:id="@+id/submitDataId"
-        android:text="Submit"/>
+        android:text="Submit"
+        android:background="@android:color/holo_red_light"
+        android:textColor="@android:color/white"/>
 
 </LinearLayout>
