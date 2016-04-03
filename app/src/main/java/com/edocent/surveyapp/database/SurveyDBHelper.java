@@ -10,13 +10,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SurveyDBHelper extends SQLiteOpenHelper {
 
     static final String DB_NAME="surveydb";
-    static final String DB_VERSION="1";
+    static final int DB_VERSION=1;
 
     /*Database table and column names*/
     static final String SURVEY_TABLE="survey";
     static final String SURVEY_TABLE_NAME_COLUMN="name";
     static final String SURVEY_TABLE_EMAIL_COLUMN="email";
     static final String SURVEY_TABLE_AGE_COLUMN="age";
+    static final String SURVEY_TABLE_LICENSE_COLUMN="age";
 
 
     /**
@@ -44,11 +45,7 @@ public class SurveyDBHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "+SURVEY_TABLE+" (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    +SURVEY_TABLE_NAME_COLUMN+" TEXT, "
-                    +SURVEY_TABLE_EMAIL_COLUMN+" TEXT, "
-                    +SURVEY_TABLE_AGE_COLUMN+" INTEGER);"
-        );
+        onUpgrade(db, 0, DB_VERSION);
     }
 
     /**
@@ -74,5 +71,18 @@ public class SurveyDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        if(oldVersion < 1){
+
+            db.execSQL("CREATE TABLE "+SURVEY_TABLE+" (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                            +SURVEY_TABLE_NAME_COLUMN+" TEXT, "
+                            +SURVEY_TABLE_EMAIL_COLUMN+" TEXT, "
+                            +SURVEY_TABLE_AGE_COLUMN+" INTEGER);"
+            );
+
+        }
+        if(oldVersion < 2){
+            //Perform Updates
+            db.execSQL("ALTER TABLE "+SURVEY_TABLE+" ADD COLUMN "+SURVEY_TABLE_LICENSE_COLUMN+" TEXT");
+        }
     }
 }
