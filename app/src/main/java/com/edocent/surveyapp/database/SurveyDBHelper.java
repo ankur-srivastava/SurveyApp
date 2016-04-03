@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SurveyDBHelper extends SQLiteOpenHelper {
 
     static final String DB_NAME="surveydb";
-    static final int DB_VERSION=1;
+    static final int DB_VERSION=2;
 
     /*Database table and column names*/
     static final String SURVEY_TABLE="survey";
