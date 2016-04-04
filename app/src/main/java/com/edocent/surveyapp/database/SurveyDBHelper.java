@@ -98,10 +98,24 @@ public class SurveyDBHelper extends SQLiteOpenHelper {
 	  String limit)
     * */
     public Cursor getSurveyData(SQLiteDatabase db){
+
+        // Define a projection that specifies which columns from the database you will actually use after this query.
+
+        String[] projection = {
+                "_id",
+                SURVEY_TABLE_NAME_COLUMN,
+                SURVEY_TABLE_EMAIL_COLUMN,
+                SURVEY_TABLE_AGE_COLUMN
+        };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder = "_id" + " DESC";
+
         return db.query(
                 SURVEY_TABLE,
-                new String[]{"_id", SURVEY_TABLE_NAME_COLUMN, SURVEY_TABLE_EMAIL_COLUMN, SURVEY_TABLE_AGE_COLUMN},
-                null, null, null, null, null
+                projection,
+                null, null, null, null,
+                sortOrder
         );
     }
 }
