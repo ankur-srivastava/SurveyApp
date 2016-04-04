@@ -1,6 +1,7 @@
 package com.edocent.surveyapp.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -84,5 +85,23 @@ public class SurveyDBHelper extends SQLiteOpenHelper {
             //Perform Updates
             db.execSQL("ALTER TABLE "+SURVEY_TABLE+" ADD COLUMN "+SURVEY_TABLE_LICENSE_COLUMN+" TEXT");
         }
+    }
+
+    /*
+    * query(String table,
+	  String[] columns,
+	  String selection,
+	  String[] selectionArgs,
+	  String groupBy,
+	  String having,
+	  String orderBy,
+	  String limit)
+    * */
+    public Cursor getSurveyData(SQLiteDatabase db){
+        return db.query(
+                SURVEY_TABLE,
+                new String[]{"_id", SURVEY_TABLE_NAME_COLUMN, SURVEY_TABLE_EMAIL_COLUMN, SURVEY_TABLE_AGE_COLUMN},
+                null, null, null, null, null
+        );
     }
 }
