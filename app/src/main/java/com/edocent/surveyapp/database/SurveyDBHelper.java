@@ -20,22 +20,8 @@ public class SurveyDBHelper extends SQLiteOpenHelper {
     static final String SURVEY_TABLE_AGE_COLUMN="age";
     static final String SURVEY_TABLE_LICENSE_COLUMN="age";
 
-
-    /**
-     * Create a helper object to create, open, and/or manage a database.
-     * This method always returns very quickly.  The database is not actually
-     * created or opened until one of {@link #getWritableDatabase} or
-     * {@link #getReadableDatabase} is called.
-     *
-     * @param context to use to open or create the database
-     * @param name    of the database file, or null for an in-memory database
-     * @param factory to use for creating cursor objects, or null for the default
-     * @param version number of the database (starting at 1); if the database is older,
-     *                {@link #onUpgrade} will be used to upgrade the database; if the database is
-     *                newer, {@link #onDowngrade} will be used to downgrade the database
-     */
-    public SurveyDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public SurveyDBHelper(Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     /**
