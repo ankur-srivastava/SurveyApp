@@ -1,11 +1,14 @@
 package com.edocent.surveyapp;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +17,8 @@ import com.edocent.surveyapp.database.SurveyDBHelper;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,20 +26,26 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         //Sample Code to query the database
+        try {
+            SurveyDBHelper surveyDBHelper = new SurveyDBHelper(this);
+            SQLiteDatabase db = surveyDBHelper.getReadableDatabase();
 
-        SurveyDBHelper surveyDBHelper = new SurveyDBHelper(this);
-        SQLiteDatabase db = surveyDBHelper.getReadableDatabase();
+            Cursor cursor = surveyDBHelper.getSurveyData(db);
 
+            if (cursor.moveToFirst()) {
+                //Get the data
+                String name = cursor.getString(1);
+                String email = cursor.getString(2);
+                Log.v(TAG, "Name "+name);
+            }
+
+            cursor.close();
+            db.close();
+        }catch (SQLiteException e){
+            Log.v(TAG, "Exception "+e.getMessage());
+        }
+        //End
     }
 
     @Override

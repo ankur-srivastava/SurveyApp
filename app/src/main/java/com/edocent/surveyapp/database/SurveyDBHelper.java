@@ -15,10 +15,10 @@ public class SurveyDBHelper extends SQLiteOpenHelper {
 
     /*Database table and column names*/
     static final String SURVEY_TABLE="survey";
-    static final String SURVEY_TABLE_NAME_COLUMN="name";
-    static final String SURVEY_TABLE_EMAIL_COLUMN="email";
-    static final String SURVEY_TABLE_AGE_COLUMN="age";
-    static final String SURVEY_TABLE_LICENSE_COLUMN="age";
+    public static final String SURVEY_TABLE_NAME_COLUMN="name";
+    public static final String SURVEY_TABLE_EMAIL_COLUMN="email";
+    public static final String SURVEY_TABLE_AGE_COLUMN="age";
+    public static final String SURVEY_TABLE_LICENSE_COLUMN="age";
 
     public SurveyDBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
