@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CursorAdapter;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import com.edocent.surveyapp.database.SurveyDBHelper;
 
@@ -40,8 +43,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.v(TAG, "Name "+name);
             }
 
-            cursor.close();
-            db.close();
+            CursorAdapter ca = new SimpleCursorAdapter(this,
+                    android.R.layout.simple_list_item_1,
+                    cursor,
+                    new String[]{SurveyDBHelper.SURVEY_TABLE_NAME_COLUMN},
+                    new int[]{android.R.id.text1},
+                    0);
+
+
+            //cursor.close();
+            //db.close();
         }catch (SQLiteException e){
             Log.v(TAG, "Exception "+e.getMessage());
         }
@@ -68,5 +79,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        //Close the Cursor here
     }
 }
