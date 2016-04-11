@@ -1,5 +1,6 @@
 package com.edocent.surveyapp;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -12,22 +13,32 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import com.edocent.surveyapp.database.SurveyDBHelper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    EditText userNameId;
+    EditText userEmailId;
+    EditText userAgeId;
+    Button submitDataId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        userNameId = (EditText)findViewById(R.id.userNameId);
+        userEmailId = (EditText)findViewById(R.id.userEmailId);
+        userAgeId = (EditText)findViewById(R.id.userAgeId);
+        submitDataId = (Button)findViewById(R.id.submitDataId);
 
         //Sample Code to query the database
         try {
@@ -57,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             Log.v(TAG, "Exception "+e.getMessage());
         }
         //End
+
+
     }
 
     @Override
@@ -85,5 +98,37 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         //Close the Cursor here
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.submitDataId){
+            Log.v(TAG, "Submit Button Clicked");
+
+            //Insert Logic
+
+            Log.v(TAG, "Data entered by the user is "+userNameId.getText()+" "+userAgeId.getText()+" "+userEmailId);
+
+            try {
+                SurveyDBHelper surveyDBHelper = new SurveyDBHelper(this);
+                SQLiteDatabase db = surveyDBHelper.getReadableDatabase();
+
+                ContentValues cv = new ContentValues();
+                cv.put(SurveyDBHelper.SURVEY_TABLE_NAME_COLUMN, userNameId.getText().toString());
+                cv.put(SurveyDBHelper.SURVEY_TABLE_EMAIL_COLUMN, userEmailId.getText().toString());
+                cv.put(SurveyDBHelper.SURVEY_TABLE_AGE_COLUMN, userAgeId.getText().toString());
+
+                db.insert(SurveyDBHelper.SURVEY_TABLE, null, cv);
+
+                db.close();
+            }catch (SQLiteException e){
+                Log.v(TAG, "Exception "+e.getMessage());
+            }
+        }
     }
 }

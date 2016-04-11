@@ -14,7 +14,7 @@ public class SurveyDBHelper extends SQLiteOpenHelper {
     static final int DB_VERSION=2;
 
     /*Database table and column names*/
-    static final String SURVEY_TABLE="survey";
+    public static final String SURVEY_TABLE="survey";
     public static final String SURVEY_TABLE_NAME_COLUMN="name";
     public static final String SURVEY_TABLE_EMAIL_COLUMN="email";
     public static final String SURVEY_TABLE_AGE_COLUMN="age";
