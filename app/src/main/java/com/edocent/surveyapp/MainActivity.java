@@ -131,4 +131,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
+    @Override
+    public void onRestart(){
+        super.onRestart();
+
+        Log.v(TAG, "Check for data refresh");
+
+        try {
+            SurveyDBHelper surveyDBHelper = new SurveyDBHelper(this);
+            SQLiteDatabase db = surveyDBHelper.getReadableDatabase();
+
+            Cursor cursor = surveyDBHelper.getSurveyData(db);
+
+            ListView lv = (ListView) findViewById(R.id.displaySurveyDataId);
+
+            CursorAdapter ca = (CursorAdapter)lv.getAdapter();
+            ca.changeCursor(cursor);
+
+        }catch (SQLiteException e){
+            Log.v(TAG, "Exception "+e.getMessage());
+        }
+    }
 }
