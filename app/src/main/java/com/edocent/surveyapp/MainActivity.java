@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -110,25 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(v.getId() == R.id.submitDataId){
             Log.v(TAG, "Submit Button Clicked");
 
-            //Insert Logic
+            //Insert Logic moved to AsyncTask
 
-            Log.v(TAG, "Data entered by the user is "+userNameId.getText()+" "+userAgeId.getText()+" "+userEmailId);
-
-            try {
-                SurveyDBHelper surveyDBHelper = new SurveyDBHelper(this);
-                SQLiteDatabase db = surveyDBHelper.getReadableDatabase();
-
-                ContentValues cv = new ContentValues();
-                cv.put(SurveyDBHelper.SURVEY_TABLE_NAME_COLUMN, userNameId.getText().toString());
-                cv.put(SurveyDBHelper.SURVEY_TABLE_EMAIL_COLUMN, userEmailId.getText().toString());
-                cv.put(SurveyDBHelper.SURVEY_TABLE_AGE_COLUMN, userAgeId.getText().toString());
-
-                db.insert(SurveyDBHelper.SURVEY_TABLE, null, cv);
-
-                db.close();
-            }catch (SQLiteException e){
-                Log.v(TAG, "Exception "+e.getMessage());
-            }
+            new SurveyDBAsyncTask().execute("");
         }
     }
 
@@ -151,6 +136,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }catch (SQLiteException e){
             Log.v(TAG, "Exception "+e.getMessage());
+        }
+    }
+
+    //Create a new AsyncTask
+    private class SurveyDBAsyncTask extends AsyncTask<String, Void, Long>{
+
+        ContentValues cv;
+
+        @Override
+        protected void onPreExecute() {
+            Log.v(TAG, "Data entered by the user is "+userNameId.getText()+" "+userAgeId.getText()+" "+userEmailId);
+
+            cv = new ContentValues();
+            cv.put(SurveyDBHelper.SURVEY_TABLE_NAME_COLUMN, userNameId.getText().toString());
+            cv.put(SurveyDBHelper.SURVEY_TABLE_EMAIL_COLUMN, userEmailId.getText().toString());
+            cv.put(SurveyDBHelper.SURVEY_TABLE_AGE_COLUMN, userAgeId.getText().toString());
+
+            super.onPreExecute();
+        }
+
+        /**
+         * Override this method to perform a computation on a background thread. The
+         * specified parameters are the parameters passed to {@link #execute}
+         * by the caller of this task.
+         * <p/>
+         * This method can call {@link #publishProgress} to publish updates
+         * on the UI thread.
+         *
+         * @param params The parameters of the task.
+         * @return A result, defined by the subclass of this task.
+         * @see #onPreExecute()
+         * @see #onPostExecute
+         * @see #publishProgress
+         */
+        @Override
+        protected Long doInBackground(String... params) {
+            long id = 0;
+
+            try {
+                SurveyDBHelper surveyDBHelper = new SurveyDBHelper(MainActivity.this);
+                SQLiteDatabase db = surveyDBHelper.getReadableDatabase();
+
+                id = db.insert(SurveyDBHelper.SURVEY_TABLE, null, cv);
+
+                db.close();
+            }catch (SQLiteException e){
+                Log.v(TAG, "Exception "+e.getMessage());
+            }
+            return id;
+        }
+
+        @Override
+        protected void onPostExecute(Long id) {
+            super.onPostExecute(id);
         }
     }
 }
