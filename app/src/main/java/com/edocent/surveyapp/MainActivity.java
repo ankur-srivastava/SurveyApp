@@ -19,6 +19,7 @@ import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import com.edocent.surveyapp.database.SurveyDBHelper;
 
@@ -41,7 +42,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userAgeId = (EditText)findViewById(R.id.userAgeId);
         submitDataId = (Button)findViewById(R.id.submitDataId);
 
+        submitDataId.setOnClickListener(this);
+
         //Sample Code to query the database
+        /*
         try {
             SurveyDBHelper surveyDBHelper = new SurveyDBHelper(this);
             SQLiteDatabase db = surveyDBHelper.getReadableDatabase();
@@ -62,12 +66,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     new int[]{android.R.id.text1},
                     0);
 
-
-            //cursor.close();
-            //db.close();
         }catch (SQLiteException e){
             Log.v(TAG, "Exception "+e.getMessage());
         }
+        */
         //End
 
 
@@ -108,8 +110,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onClick(View v) {
+        Log.v(TAG, "Submit Button Clicked");
         if(v.getId() == R.id.submitDataId){
-            Log.v(TAG, "Submit Button Clicked");
+            Log.v(TAG, "On Submit Data Id");
 
             //Insert Logic moved to AsyncTask
 
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onRestart();
 
         Log.v(TAG, "Check for data refresh");
-
+        /*
         try {
             SurveyDBHelper surveyDBHelper = new SurveyDBHelper(this);
             SQLiteDatabase db = surveyDBHelper.getReadableDatabase();
@@ -137,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }catch (SQLiteException e){
             Log.v(TAG, "Exception "+e.getMessage());
         }
+        */
     }
 
     //Create a new AsyncTask
@@ -173,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected Long doInBackground(String... params) {
             long id = 0;
-
+            Log.v(TAG, "In doInBackground");
             try {
                 SurveyDBHelper surveyDBHelper = new SurveyDBHelper(MainActivity.this);
                 SQLiteDatabase db = surveyDBHelper.getReadableDatabase();
@@ -190,6 +194,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(Long id) {
             super.onPostExecute(id);
+            Log.v(TAG, "In onPostExecute and id is "+id);
+            //Toast.makeText(getApplicationContext(), "Insert Success", Toast.LENGTH_SHORT).show();
         }
     }
 }
