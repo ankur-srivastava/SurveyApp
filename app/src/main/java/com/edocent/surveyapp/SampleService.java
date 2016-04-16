@@ -2,6 +2,7 @@ package com.edocent.surveyapp;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.util.Log;
 
 
 /**
@@ -11,14 +12,7 @@ import android.content.Intent;
  * TODO: Customize class - update intent actions and extra parameters.
  */
 public class SampleService extends IntentService {
-    // TODO: Rename actions, choose action names that describe tasks that this
-    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    public static final String ACTION_FOO = "com.edocent.surveyapp.action.FOO";
-    public static final String ACTION_BAZ = "com.edocent.surveyapp.action.BAZ";
-
-    // TODO: Rename parameters
-    public static final String EXTRA_PARAM1 = "com.edocent.surveyapp.extra.PARAM1";
-    public static final String EXTRA_PARAM2 = "com.edocent.surveyapp.extra.PARAM2";
+    private static final String TAG = SampleService.class.getSimpleName();
 
     public SampleService() {
         super("SampleService");
@@ -26,35 +20,16 @@ public class SampleService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.v(TAG, "In onHandleIntent. Message will be printed after 10sec");
         if (intent != null) {
-            final String action = intent.getAction();
-            if (ACTION_FOO.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionFoo(param1, param2);
-            } else if (ACTION_BAZ.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionBaz(param1, param2);
+            synchronized (this){
+                try {
+                    wait(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.v(TAG, "Service started");
             }
         }
-    }
-
-    /**
-     * Handle action Foo in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionFoo(String param1, String param2) {
-        // TODO: Handle action Foo
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    /**
-     * Handle action Baz in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionBaz(String param1, String param2) {
-        // TODO: Handle action Baz
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

@@ -1,6 +1,7 @@
 package com.edocent.surveyapp;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText userEmailId;
     EditText userAgeId;
     Button submitDataId;
+    Button serviceId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userEmailId = (EditText)findViewById(R.id.userEmailId);
         userAgeId = (EditText)findViewById(R.id.userAgeId);
         submitDataId = (Button)findViewById(R.id.submitDataId);
+        serviceId = (Button)findViewById(R.id.callSampleServiceId);
 
         submitDataId.setOnClickListener(this);
+        serviceId.setOnClickListener(this);
 
         //Sample Code to query the database
         /*
@@ -107,13 +111,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onClick(View v) {
-        Log.v(TAG, "Submit Button Clicked");
         if(v.getId() == R.id.submitDataId){
-            Log.v(TAG, "On Submit Data Id");
+            Log.v(TAG, "Submit Button Clicked");
 
             //Insert Logic moved to AsyncTask
 
             new SurveyDBAsyncTask().execute("");
+        }
+
+        if(v.getId() == R.id.callSampleServiceId){
+            Log.v(TAG, "Service Button Clicked");
+
+            Intent intent = new Intent(this, SampleService.class);
+            startService(intent);
         }
     }
 
