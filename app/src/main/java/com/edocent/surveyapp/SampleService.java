@@ -2,7 +2,9 @@ package com.edocent.surveyapp;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 
 /**
@@ -14,8 +16,16 @@ import android.util.Log;
 public class SampleService extends IntentService {
     private static final String TAG = SampleService.class.getSimpleName();
 
+    private Handler mHandler;
+
     public SampleService() {
         super("SampleService");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId){
+        mHandler = new Handler();
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
@@ -29,6 +39,12 @@ public class SampleService extends IntentService {
                     e.printStackTrace();
                 }
                 Log.v(TAG, "Service started");
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Service Completed" , Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }
     }
