@@ -23,6 +23,11 @@
             android:name=".SampleService"
             android:exported="false">
         </service>
+        <service
+            android:name=".DistanceTraveledService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>
