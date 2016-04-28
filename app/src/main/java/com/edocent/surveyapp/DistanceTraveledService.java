@@ -77,4 +77,8 @@ public class DistanceTraveledService extends Service {
             return DistanceTravelBinder.this;
         }
     }
+
+    public double getDistanceTraveled(){
+        return distanceInMetres;
+    }
 }
