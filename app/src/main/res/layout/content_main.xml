@@ -60,20 +60,47 @@
         android:background="@android:color/holo_red_light"
         android:textColor="@android:color/white"/>
 
-    <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            android:id="@+id/callSampleServiceId"
+            android:text="Started Service"
+            android:background="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"/>
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            android:id="@+id/callDistanceServiceId"
+            android:text="Distance Service"
+            android:background="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_margin="15dp"
-        android:id="@+id/callSampleServiceId"
-        android:text="Start Service"
-        android:background="@android:color/holo_blue_dark"
-        android:textColor="@android:color/white"/>
+        android:id="@+id/displayDistanceId"
+        android:text="100metres"/>
 
+    <!--
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/displaySurveyDataId"/>
-
+    -->
 </LinearLayout>
