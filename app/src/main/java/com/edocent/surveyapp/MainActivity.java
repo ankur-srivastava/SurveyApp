@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,6 +22,7 @@ import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edocent.surveyapp.database.SurveyDBHelper;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText userAgeId;
     Button submitDataId;
     Button serviceId;
+    TextView distanceTraveled;
 
     @Override
     protected void onStart(){
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userAgeId = (EditText)findViewById(R.id.userAgeId);
         submitDataId = (Button)findViewById(R.id.submitDataId);
         serviceId = (Button)findViewById(R.id.callSampleServiceId);
+        distanceTraveled = (TextView)findViewById(R.id.displayDistanceId);
 
         submitDataId.setOnClickListener(this);
         serviceId.setOnClickListener(this);
@@ -109,8 +113,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         */
         //End
+        //Start the Bound Service - Distance Traveled Service
+        displayDistance();
 
+    }
 
+    private void displayDistance() {
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                double distance = 0;
+                if(mDistanceTraveledService != null){
+                    distance = mDistanceTraveledService.getDistanceTraveled();
+                }
+                distanceTraveled.setText(String.valueOf(distance));
+                handler.postDelayed(this, 1000);
+            }
+        });
     }
 
     @Override
