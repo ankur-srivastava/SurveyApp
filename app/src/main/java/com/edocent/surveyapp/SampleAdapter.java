@@ -1,17 +1,31 @@
 package com.edocent.surveyapp;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 /**
  * Created by ankursrivastava on 5/4/16.
  */
 public class SampleAdapter extends RecyclerView.Adapter {
 
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        CardView mCardView;
+        public ViewHolder(View itemView) {
+            super(itemView);
+            mCardView = (CardView) itemView;
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+
+        CardView cardView = (CardView) LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.card_view_sample,parent,false);
+
+        return new ViewHolder(cardView);
     }
 
     @Override
