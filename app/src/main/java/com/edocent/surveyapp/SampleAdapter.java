@@ -13,9 +13,18 @@ import android.widget.TextView;
 public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.ViewHolder> {
 
     String[] textData;
+    Listener mListener;
 
     public SampleAdapter(String[] textData) {
         this.textData = textData;
+    }
+
+    public static interface Listener{
+        public void onClick(int position);
+    }
+
+    public void setListener(Listener listener) {
+        mListener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -35,10 +44,18 @@ public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         CardView cardView = holder.mCardView;
         TextView cardText = (TextView) cardView.findViewById(R.id.cardTextId);
         cardText.setText(textData[position]);
+        cardView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if(mListener != null){
+                    mListener.onClick(position);
+                }
+            }
+        });
     }
 
     @Override

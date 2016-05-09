@@ -22,6 +22,12 @@ public class MaterialActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.sample_recycler);
 
         SampleAdapter adapter = new SampleAdapter(inputData);
+        adapter.setListener(new SampleAdapter.Listener() {
+            @Override
+            public void onClick(int position) {
+                //Add code here
+            }
+        });
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
